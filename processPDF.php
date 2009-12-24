@@ -40,6 +40,11 @@ class S3Wrapper {
       $info = $s3->getObjectInfo($bucketName, $path);
       return "S3::getObjecInfo(): Info for {$bucketName}/".$path.': '.print_r($info, 1);
    }
+
+   public static function getUrl($path) {
+      $bucket = BASE_BUCKET;
+      return "http://s3.amazonaws.com/{$bucket}/{$path}";
+   }
 }
 
 Class MainClass {
@@ -73,7 +78,7 @@ Class MainClass {
       else
          self::log("FAILURE: Put of {$fileName} to {$folder}.");
 
-      return $ret;
+      return $ret ? S3Wrapper::getUrl($folder.$fileName) : false;
    }
 }
 ?>
