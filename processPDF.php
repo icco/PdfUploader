@@ -5,8 +5,8 @@ require "s3-php5-curl/S3.php";
 define("BASE_BUCKET", "resumes.cpacm");
 
 // Deal with uploaded content
-MainClass::parsePDF($_FILES['file'], $_POST['fname'], $_POST['lname']);
-header('Location: .');
+//MainClass::parsePDF($_FILES['file'], $_POST['fname'], $_POST['lname']);
+//header('Location: .');
 
 class S3Wrapper {
    public static function listBuckets() {
@@ -34,7 +34,7 @@ class S3Wrapper {
       return $put;
    }
 
-   public static getFileInfo($path) {
+   public static function getFileInfo($path) {
       $s3 = new S3(AWS_ACCESS_KEY, AWS_SECRET_KEY);
       $bucketName = BASE_BUCKET;
       $info = $s3->getObjectInfo($bucketName, $path);
