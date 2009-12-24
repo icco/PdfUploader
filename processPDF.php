@@ -24,12 +24,6 @@ class S3Wrapper {
       $acl = S3::ACL_PUBLIC_READ;
       $bucketName = BASE_BUCKET;
 
-      // I was thinking of using these...
-      $metaHeaders = array();
-      $requestHeaders = array( 
-         "Expires" => gmdate("D, d M Y H:i:s T", strtotime("+1 year"))
-      );
-
       $put = $s3->putObject(
          S3::inputFile($file),
          $bucketName,
@@ -37,10 +31,14 @@ class S3Wrapper {
          $acl
       );
 
-      $info = $s3->getObjectInfo($bucketName, $path);
-      MainClass::log("S3::getObjecInfo(): Info for {$bucketName}/".$path.': '.print_r($info, 1));
-
       return $put;
+   }
+
+   public static getFileInfo($path) {
+      $s3 = new S3(AWS_ACCESS_KEY, AWS_SECRET_KEY);
+      $bucketName = BASE_BUCKET;
+      $info = $s3->getObjectInfo($bucketName, $path);
+      return "S3::getObjecInfo(): Info for {$bucketName}/".$path.': '.print_r($info, 1);
    }
 }
 
@@ -68,6 +66,7 @@ Class MainClass {
 
       // Send File
       $ret = S3Wrapper::putFile($fileArray['tmp_name'], $folder.$fileName);
+      self::log(S3Wrapper::getFileInfo($folder.$fileName));
 
       if ($ret)
          self::log("SUCCESS: Put of {$fileName} to {$folder}.");
