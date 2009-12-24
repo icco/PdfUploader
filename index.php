@@ -2,7 +2,9 @@
 
 require('processPDF.php');
 
-if (isset($_POST['fname'])) {
+if (isset($_POST['fname']) &&
+    isset($_POST['lname']) &&
+    isset($_FILES['file'])) {
    $fname = $_POST['fname'];
    $lname = $_POST['lname'];
    $result = MainClass::parsePDF($_FILES['file'], $fname, $lname );
