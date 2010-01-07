@@ -15,10 +15,46 @@ if (isset($_POST['fname']) &&
 <html>
    <head>
       <title>Cal Poly ACM Resume Book</title>
+      <style>
+      <!--
+         body {
+            width: 500px;
+            margin-top: 55px;
+            margin-left: auto;
+            margin-right: auto;
+         }
+         
+         table {
+            width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+}
+         
+         h1 {
+            padding: 5px 0;
+            font-family: sans-serif;
+         }
+         
+         h2 {
+            margin-top: 5px;
+            margin-bottom: 60px;
+         }
+         
+         label {
+            font-weight: 900;
+            font-family: serif;
+         }
+      -->
+      </style>
+      <!--
+         This page was coded by Nathaniel "Nat" Welch, for Cal Poly's 
+         Association of Computing Machinery. The source code is available at 
+         http://github.com/icco/PdfUploader.
+      -->
    </head>
    <body>
-      <h1>Cal Poly ACM's Resume Book</h1>
-      <h2>Please input your first and last name and select your resume to upload.</h2>
+      <h1>Cal Poly <acronym title="Association of Computing Machinery">ACM</acronym> Resume Book</h1>
+      <h2>Please input your first and last name, your major, and select your resume to upload.</h2>
       <?php if (isset($result) && $result) { ?>
          <h3>Success!</h3>
          <p>
