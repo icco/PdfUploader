@@ -36,10 +36,12 @@ class S3Wrapper {
 
    public static function listBucket($name) {
       $s3 = new S3(AWS_ACCESS_KEY, AWS_SECRET_KEY);
-      if (($contents = $s3->getBucket($bucketName)) !== false) {
+      if (($contents = $s3->getBucket($name)) !== false) {
          foreach ($contents as $object) {
             MainClass::log(print_r($object, true));
          }
+      } else {
+         return array();
       }
 
       return array();
@@ -68,7 +70,7 @@ Class MainClass {
    }
 
    public static function getResumeArray() {
-      $files = S3wrapper::listBucket(BASE_BUCKET);
+      $files = S3wrapper::listBucket(BASE_BUCKET, MainClass::getSchoolYear() . "/");
 
       return $files;
    }
@@ -90,7 +92,7 @@ Class MainClass {
       }
 
       // Create folder for this year 
-      $folder = date('Y') . "/";
+      $folder =  MainClass::getSchoolYear() . "/";
       $fileName = "{$lname}_{$fname}_{$major}.pdf";
 
       // Send File
@@ -103,6 +105,32 @@ Class MainClass {
          self::log("FAILURE: Put of {$fileName} to {$folder}. The file had meta of " . print_r($meta, true) . ".");
 
       return $ret ? S3Wrapper::getUrl($folder.$fileName) : false;
+   }
+
+   public static function getSchoolYear() {
+      $month = (int)date('n');
+      switch ($month) {
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+      case 6:
+         $ret = date('Y', strtotime("-1 year")) . "-" . date('Y');
+         break;
+      case 7:
+      case 8:
+      case 9:
+      case 10:
+      case 11:
+      case 12:
+         $ret = date('Y') . "-" . date('Y', strtotime("+1 year"));
+         break;
+      default:
+         $ret = date('Y');
+      }
+
+      return $ret;
    }
 
    public static function verifyPdfUpload($fileArr, &$meta) {
