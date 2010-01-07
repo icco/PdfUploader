@@ -56,18 +56,25 @@ Class MainClass {
       fclose($fd);
    }
 
-   public static function parsePDF($fileArray, $fname, $lname) {
+   public static function parsePDF($fileArray, $fname, $lname, $major) {
       // Check to make sure root bucket exists
       if (S3wrapper::createBucket(BASE_BUCKET)) {
          self::log("Created bucket " . BASE_BUCKET);
       }
 
-      if (is_null($fname) || is_null($lname) || is_null($fileArray))
+      if (is_null($fname) 
+       || is_null($lname)
+       || is_null($major) 
+       || is_null($fileArray))
          return false;
+
+      if (self::verifyPdfUpload($fileArray, $meta) !== false) {
+         return false;
+      }
 
       // Create folder for this year 
       $folder = date('Y') . "/";
-      $fileName = "{$fname}{$lname}.pdf";
+      $fileName = "{$lname}_{$fname}_{$major}.pdf";
 
       // Send File
       $ret = S3Wrapper::putFile($fileArray['tmp_name'], $folder.$fileName);
@@ -79,6 +86,68 @@ Class MainClass {
          self::log("FAILURE: Put of {$fileName} to {$folder}.");
 
       return $ret ? S3Wrapper::getUrl($folder.$fileName) : false;
+   }
+
+   public static function verifyPdfUpload($fileArr, &$meta) {
+      $error = false; 
+      $fileError = $fileArr['error'];
+
+      if ($fileArr['name'] == "") 
+         return "No File Uploaded";
+
+      $pdfMime = array(
+         "application/pdf",
+         "application/x-pdf",
+         "application/acrobat",
+         "applications/vnd.pdf",
+         "text/pdf",
+         "text/x-pdf"
+      );
+
+      $finfo = new finfo();
+      if (!$finfo || !$fileArr["tmp_name"]) 
+         return "There was an error saving your file, please try again.";
+
+      $fileType = $finfo->file($fileArr["tmp_name"], FILEINFO_MIME);
+      $meta = array(
+         'content-type' => $fileType
+      );
+
+      $temp = explode(";",$fileType);
+
+      if ($fileArr['size'] > 8 * 1024 * 1024)
+         $error = _('Please upload only files smaller than 8 MB!');
+      else if (!in_array($temp[0], $pdfMime))
+         $error = _("Please upload a PDF.");
+      else if ($fileError) {
+         // Adopted from php.net
+         switch ($fileError) {
+            case UPLOAD_ERR_INI_SIZE: 
+            case UPLOAD_ERR_FORM_SIZE: {
+               $error = _("Please only upload files smaller than 8 MB.");
+               break;
+            } case UPLOAD_ERR_PARTIAL: {
+               $error = _('The upload was incomplete. Please try again.');
+               break;
+            } case UPLOAD_ERR_NO_FILE: {
+               $error = _('No file was uploaded.');
+               break;
+            } case UPLOAD_ERR_NO_TMP_DIR: {
+               $error = _('The server does not have a temporary folder.');
+               break;
+            } case UPLOAD_ERR_CANT_WRITE: {
+               $error = _('Failed to write file to disk.');
+               break;
+            } case UPLOAD_ERR_EXTENSION: {
+               $error = _('File upload stipped by extension.');
+               break;
+            } default: {
+               $error = _('Unknown upload error');
+            } 
+         }
+      }
+
+      return $error;
    }
 }
 ?>

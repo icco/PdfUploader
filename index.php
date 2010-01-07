@@ -5,10 +5,12 @@ require('processPDF.php');
 if (isset($_POST['fname']) &&
     isset($_POST['lname']) &&
     isset($_FILES['file'])) {
-   $fname = $_POST['fname'];
-   $lname = $_POST['lname'];
+   $fname = ucwords($_POST['fname']);
+   $lname = ucwords($_POST['lname']);
+   $major = $_POST['major'];
    $result = MainClass::parsePDF($_FILES['file'], $fname, $lname );
 }
+
 ?>
 <html>
    <head>
@@ -41,6 +43,13 @@ if (isset($_POST['fname']) &&
          <input name="fname" id="fname">
          <label for="lname">Last Name: </label> 
          <input name="lname" id="lname">
+         <label for="major">Major: </label> 
+         <select name="major" id="major">
+            <option selected>CSC</option>
+            <option>CPE</option>
+            <option>SE</option>
+            <option>EE</option>
+         </select>
          <label for="id_file">File: </label> 
          <input name="file" id="id_file" type="file">
          <button type="submit" class="bigbutton">Upload</button>
