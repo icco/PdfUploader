@@ -83,7 +83,7 @@ Class MainClass {
       if ($ret)
          self::log("SUCCESS: Put of {$fileName} to {$folder}.");
       else
-         self::log("FAILURE: Put of {$fileName} to {$folder}.");
+         self::log("FAILURE: Put of {$fileName} to {$folder}. The file had meta of " . print_r($meta, true) . ".");
 
       return $ret ? S3Wrapper::getUrl($folder.$fileName) : false;
    }
@@ -104,11 +104,11 @@ Class MainClass {
          "text/x-pdf"
       );
 
-      $finfo = new finfo();
-      if (!$finfo || !$fileArr["tmp_name"]) 
+
+      if (!$fileArr["tmp_name"]) 
          return "There was an error saving your file, please try again.";
 
-      $fileType = $finfo->file($fileArr["tmp_name"], FILEINFO_MIME);
+      $fileType = exec("file -b --mime-type " . $fileArr["tmp_name"]);
       $meta = array(
          'content-type' => $fileType
       );

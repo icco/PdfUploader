@@ -40,6 +40,22 @@ if (isset($_POST['fname']) &&
             margin-bottom: 60px;
          }
          
+         #yay {
+            background-color: LightGreen;
+            border-color: DarkGreen;
+         }
+         
+         .notify {
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 3px solid;
+         }
+
+         #nay {
+            background-color: LightCoral;
+            border-color: DarkRed;
+         }
+         
          label {
             font-weight: 900;
             font-family: serif;
@@ -56,23 +72,27 @@ if (isset($_POST['fname']) &&
       <h1>Cal Poly <acronym title="Association of Computing Machinery">ACM</acronym> Resume Book</h1>
       <h2>Please input your first and last name, your major, and select your resume to upload.</h2>
       <?php if (isset($result) && $result) { ?>
-         <h3>Success!</h3>
-         <p>
-            Thank you for uploading your resume <?php print "$fname $lname"; ?>.
-         </p>
-         <p> 
-         The resume you submited is <a href="<?php echo $result; ?>">available for viewing</a> 
-            if you wish. If you do not like what you uploaded, you can overwrite 
-            it by putting in your name and uploading a new file.
-         </p> 
+         <div id="yay" class="notify">
+            <h3>Success!</h3>
+            <p>
+               Thank you for uploading your resume <?php print "$fname $lname"; ?>.
+            </p>
+            <p> 
+            The resume you submited is <a href="<?php echo $result; ?>">available for viewing</a> 
+               if you wish. If you do not like what you uploaded, you can overwrite 
+               it by putting in your name and uploading a new file.
+            </p> 
+         </div>
       <?php } else if (isset($result) && $result === false) { ?>
-         <h3>Failure!</h3>
-         <p>
-            Either you did not upload a PDF, you are missing a field (First and Last name...)
-            , or there is a problem with our 
-            servers. Please wait a minute and try again. If problems persist, 
-            please <a href="mailto:nwelch@calpoly.edu">email us</a>.
-         </p>
+         <div id="nay" class="notify">
+            <h3>Failure!</h3>
+            <p>
+               Either you did not upload a PDF, you are missing a field (First and Last name...)
+               , or there is a problem with our 
+               servers. Please wait a minute and try again. If problems persist, 
+               please <a href="mailto:nwelch@calpoly.edu">email us</a>.
+            </p>
+         </div>
    <?php } ?>
       <table>
          <form method="post" enctype="multipart/form-data">
