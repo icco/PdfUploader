@@ -8,7 +8,7 @@ if (isset($_POST['fname']) &&
    $fname = ucwords($_POST['fname']);
    $lname = ucwords($_POST['lname']);
    $major = $_POST['major'];
-   $result = MainClass::parsePDF($_FILES['file'], $fname, $lname );
+   $result = MainClass::parsePDF($_FILES['file'], $fname, $lname, $major);
 }
 
 ?>
