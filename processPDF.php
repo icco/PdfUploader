@@ -34,6 +34,17 @@ class S3Wrapper {
       return $put;
    }
 
+   public static function listBucket($name) {
+      $s3 = new S3(AWS_ACCESS_KEY, AWS_SECRET_KEY);
+      if (($contents = $s3->getBucket($bucketName)) !== false) {
+         foreach ($contents as $object) {
+            MainClass::log(print_r($object, true));
+         }
+      }
+
+      return array();
+   }
+
    public static function getFileInfo($path) {
       $s3 = new S3(AWS_ACCESS_KEY, AWS_SECRET_KEY);
       $bucketName = BASE_BUCKET;
@@ -54,6 +65,12 @@ Class MainClass {
       $fd = fopen("./notifications.log", 'a');
       fwrite($fd, $write);
       fclose($fd);
+   }
+
+   public static function getResumeArray() {
+      $files = S3wrapper::listBucket(BASE_BUCKET);
+
+      return $files;
    }
 
    public static function parsePDF($fileArray, $fname, $lname, $major) {
