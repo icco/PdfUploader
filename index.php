@@ -38,22 +38,39 @@ if (isset($_POST['fname']) &&
             please <a href="mailto:nwelch@calpoly.edu">email us</a>.
          </p>
    <?php } ?>
-      <form method="post" enctype="multipart/form-data">
-         <label for="fname">First Name: </label> 
-         <input name="fname" id="fname">
-         <label for="lname">Last Name: </label> 
-         <input name="lname" id="lname">
-         <label for="major">Major: </label> 
-         <select name="major" id="major">
-            <option selected>CSC</option>
-            <option>CPE</option>
-            <option>SE</option>
-            <option>EE</option>
-         </select>
-         <label for="id_file">File: </label> 
-         <input name="file" id="id_file" type="file">
-         <button type="submit" class="bigbutton">Upload</button>
-      </form>
+      <table>
+         <form method="post" enctype="multipart/form-data">
+            <tr>
+               <td><label for="fname">First Name: </label></td>
+               <td><input name="fname" id="fname" style="width: 262px;"></td>
+            </tr>
+            <tr>
+               <td><label for="lname">Last Name: </label></td> 
+               <td><input name="lname" id="lname" style="width: 262px;"></td>
+            </tr>
+            <tr>
+               <td><label for="major">Major: </label></td>
+               <td>
+                  <select name="major" id="major" style="width: 262px;">
+                     <option selected>CSC</option>
+                     <option>CPE</option>
+                     <option>SE</option>
+                     <option>EE</option>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td><label for="id_file">File: </label></td>
+               <td><input name="file" id="id_file" type="file"></td>
+            </tr>
+            <tr>
+               <td colspan="2">
+                  <button type="submit" class="bigbutton" 
+                   style="width: 95px; height: 60px; margin: 10px;">Upload</button>
+               </td>
+            </tr>
+         </form>
+      </table>
    </body>
 </html>
 
