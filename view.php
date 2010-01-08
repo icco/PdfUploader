@@ -52,6 +52,14 @@ $resumes = MainClass::getResumeArray();
       <h2>Use this page to browse resumes for this year's students.</h2>
       <table>
       <?php
+         if (!empty($resumes)) { 
+      ?>
+         <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Major</th>
+         </tr>
+      <?php }
          foreach ($resumes as $resume) {
             $rowString = "<tr>";
             $rowString .= "<td>{$resume['fname']}</td>";

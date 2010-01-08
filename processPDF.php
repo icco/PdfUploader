@@ -30,9 +30,9 @@ class S3Wrapper {
       return $put;
    }
 
-   public static function listBucket($name) {
+   public static function listBucket($name, $folder) {
       $s3 = new S3(AWS_ACCESS_KEY, AWS_SECRET_KEY);
-      if (($contents = $s3->getBucket($name)) !== false) {
+      if (($contents = $s3->getBucket($name, $folder, null, null, '/')) !== false) {
          foreach ($contents as $object) {
             MainClass::log(print_r($object, true));
          }
@@ -40,7 +40,7 @@ class S3Wrapper {
          return array();
       }
 
-      return array();
+      return $contents;
    }
 
    public static function getFileInfo($path) {
@@ -66,15 +66,18 @@ Class MainClass {
    }
 
    public static function getResumeArray() {
-      $files = S3wrapper::listBucket(BASE_BUCKET, MainClass::getSchoolYear() . "/");
+      $folder = MainClass::getSchoolYear()."/";
+      $files = S3wrapper::listBucket(BASE_BUCKET, $folder);
       $ret = array();
 
-      foreach ($files as $path) {
+      foreach ($files as $file) {
          $t = array();
-         $t['fname'] = "alk";
-         $t['lname'] = "lal";
-         $t['major'] = "CSC";
-         $t['link'] = S3wrapper::getUrl($path);
+         $path = basename($file['name']);
+         $a = explode('_', $path);
+         $t['fname'] = $a[1];
+         $t['lname'] = $a[0];
+         $t['major'] = substr($a[2], 0, strrpos($a[2],'.'));
+         $t['link'] = S3wrapper::getUrl($folder.$path);
 
          $ret[] = $t;
       }
