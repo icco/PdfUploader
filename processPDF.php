@@ -4,10 +4,6 @@ require "s3-php5-curl/S3.php";
 
 define("BASE_BUCKET", "resumes.cpacm");
 
-// Deal with uploaded content
-//MainClass::parsePDF($_FILES['file'], $_POST['fname'], $_POST['lname']);
-//header('Location: .');
-
 class S3Wrapper {
    public static function listBuckets() {
       $s3 = new S3(AWS_ACCESS_KEY, AWS_SECRET_KEY);
@@ -71,8 +67,19 @@ Class MainClass {
 
    public static function getResumeArray() {
       $files = S3wrapper::listBucket(BASE_BUCKET, MainClass::getSchoolYear() . "/");
+      $ret = array();
 
-      return $files;
+      foreach ($files as $path) {
+         $t = array();
+         $t['fname'] = "alk";
+         $t['lname'] = "lal";
+         $t['major'] = "CSC";
+         $t['link'] = S3wrapper::getUrl($path);
+
+         $ret[] = $t;
+      }
+
+      return $ret;
    }
 
    public static function parsePDF($fileArray, $fname, $lname, $major) {

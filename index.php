@@ -122,7 +122,7 @@ if (isset($_POST['fname']) &&
             <tr>
                <td colspan="2">
                   <button type="submit" class="bigbutton" 
-                   style="width: 95px; height: 60px; margin: 10px;">Upload</button>
+                   style="width: 105px; height: 60px; margin: 10px;">Upload</button>
                </td>
             </tr>
          </form>
