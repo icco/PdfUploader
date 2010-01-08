@@ -54,11 +54,14 @@ $resumes = MainClass::getResumeArray();
       <?php
          if (!empty($resumes)) { 
       ?>
-         <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Major</th>
-         </tr>
+         <thead>
+            <tr>
+               <th>First Name</th>
+               <th>Last Name</th>
+               <th>Major</th>
+            </tr>
+         </thead>
+         <tbody>
       <?php }
          foreach ($resumes as $resume) {
             $rowString = "<tr>";
@@ -71,6 +74,7 @@ $resumes = MainClass::getResumeArray();
             print $rowString;
          }
       ?>
+         </tbody>
       </table>
    </body>
 </html>
