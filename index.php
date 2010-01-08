@@ -28,7 +28,7 @@ if (isset($_POST['fname']) &&
             width: 450px;
             margin-left: auto;
             margin-right: auto;
-}
+         }
          
          h1 {
             padding: 5px 0;

@@ -39,18 +39,49 @@ $resumes = MainClass::getResumeArray();
             background-color: LightCoral;
             border-color: DarkRed;
          }
+
+         table.sortable thead {
+            background-color:#eee;
+            color:#666666;
+            font-weight: bold;
+            cursor: pointer;
+         }
+
+         table {
+            width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+         }
+         
+         th {
+            padding: 5px 15px;
+         }
+
+         td {
+            text-align: center;
+            padding: 3px 0;
+         }
+         
+         tr.norm {
+            background-color: skyblue;
+         }
+         
+         tr.alt {
+            background-color: grey;
+         }
       -->
       </style>
       <!--
          This page was coded by Nathaniel "Nat" Welch, for Cal Poly's 
          Association of Computing Machinery. The source code is available at 
          http://github.com/icco/PdfUploader.
-      -->
+         -->
+   <script src="sorttable.js"></script>
    </head>
    <body>
       <h1>Cal Poly <acronym title="Association of Computing Machinery">ACM</acronym> Resume Book</h1>
       <h2>Use this page to browse resumes for this year's students.</h2>
-      <table>
+      <table class="sortable">
       <?php
          if (!empty($resumes)) { 
       ?>
@@ -63,8 +94,9 @@ $resumes = MainClass::getResumeArray();
          </thead>
          <tbody>
       <?php }
-         foreach ($resumes as $resume) {
-            $rowString = "<tr>";
+         foreach ($resumes as $key => $resume) {
+            $alt = $key % 2 != 0 ? "alt" : "norm";
+            $rowString = "<tr class=\"{$alt}\">";
             $rowString .= "<td>{$resume['fname']}</td>";
             $rowString .= "<td>{$resume['lname']}</td>";
             $rowString .= "<td>{$resume['major']}</td>";
