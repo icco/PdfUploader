@@ -95,8 +95,8 @@ Class MainClass {
          return false;
        }
 
-      if (self::verifyPdfUpload($fileArray, $meta) !== false) {
-         self::log("PDF verification failed.");
+      if (($ret = self::verifyPdfUpload($fileArray, $meta)) !== false) {
+         self::log("PDF verification failed. $ret");
          return false;
       }
 
@@ -157,7 +157,6 @@ Class MainClass {
          "text/pdf",
          "text/x-pdf"
       );
-
 
       if (!$fileArr["tmp_name"]) 
          return "There was an error saving your file, please try again.";
