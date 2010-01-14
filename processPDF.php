@@ -161,7 +161,7 @@ Class MainClass {
       if (!$fileArr["tmp_name"]) 
          return "There was an error saving your file, please try again.";
 
-      $fileType = exec("file -b --mime-type " . $fileArr["tmp_name"]);
+      $fileType = exec("file -b --mime" . $fileArr["tmp_name"]);
       $meta = array(
          'content-type' => $fileType
       );
