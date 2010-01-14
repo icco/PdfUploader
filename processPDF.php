@@ -90,10 +90,13 @@ Class MainClass {
       if (is_null($fname) 
        || is_null($lname)
        || is_null($major) 
-       || is_null($fileArray))
+       || is_null($fileArray)) {
+         self::log("Missing data in post array.");
          return false;
+       }
 
       if (self::verifyPdfUpload($fileArray, $meta) !== false) {
+         self::log("PDF verification failed.");
          return false;
       }
 
