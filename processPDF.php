@@ -33,14 +33,10 @@ class S3Wrapper {
    public static function listBucket($name, $folder) {
       $s3 = new S3(AWS_ACCESS_KEY, AWS_SECRET_KEY);
       if (($contents = $s3->getBucket($name, $folder, null, null, '/')) !== false) {
-         foreach ($contents as $object) {
-            MainClass::log(print_r($object, true));
-         }
+         return $contents;
       } else {
          return array();
       }
-
-      return $contents;
    }
 
    public static function getFileInfo($path) {
