@@ -1,0 +1,4 @@
+ AuthType Basic
+ AuthName "ACM Resume Viewer"
+ AuthUserFile .htpassword 
+ Require user corporate
