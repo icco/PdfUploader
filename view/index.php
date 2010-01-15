@@ -4,7 +4,7 @@ $resumes = MainClass::getResumeArray();
 ?>
 <html>
    <head>
-      <title>Cal Poly ACM Resume Book</title>
+      <title>Cal Poly ACM Resume Book Viewer</title>
       <style>
       <!--
          body {
@@ -48,9 +48,8 @@ $resumes = MainClass::getResumeArray();
          }
 
          table {
-            width: 450px;
-            margin-left: auto;
-            margin-right: auto;
+            width: 700px;
+            margin-left: -100px;
          }
          
          th {
@@ -68,6 +67,12 @@ $resumes = MainClass::getResumeArray();
          
          tr.alt {
             background-color: grey;
+         }
+
+         a, a:hover, a:visited {
+            color: black;
+            font-family: sans-serif;
+            font-weight: 900;
          }
       -->
       </style>
@@ -100,7 +105,7 @@ $resumes = MainClass::getResumeArray();
             $rowString .= "<td>{$resume['fname']}</td>";
             $rowString .= "<td>{$resume['lname']}</td>";
             $rowString .= "<td>{$resume['major']}</td>";
-            $rowString .= "<td><a href=\"{$resume['link']}\">View</a></td>";
+            $rowString .= "<td><a href=\"{$resume['link']}\">DL</a></td>";
             $rowString .= "</tr>\n";
 
             print $rowString;
