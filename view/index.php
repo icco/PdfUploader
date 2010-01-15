@@ -1,5 +1,5 @@
 <?php
-require('processPDF.php');
+require('../processPDF.php');
 $resumes = MainClass::getResumeArray();
 ?>
 <html>
