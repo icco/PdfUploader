@@ -127,6 +127,9 @@ if (isset($_POST['fname']) &&
             </tr>
          </form>
       </table>
+
+      <?php include('google.html'); ?>
+
    </body>
 </html>
 

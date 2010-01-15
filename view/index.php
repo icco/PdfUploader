@@ -118,6 +118,9 @@ $resumes = MainClass::getResumeArray();
       ?>
          </tbody>
       </table>
+
+      <?php include('../google.html'); ?>
+
    </body>
 </html>
 
