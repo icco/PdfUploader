@@ -1,0 +1,5 @@
+# We don't allow any robots here. 
+# Note that if this file is in a sub-directory, it will not get looked at.
+
+User-agent: *
+Disallow: /
