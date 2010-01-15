@@ -61,6 +61,10 @@ $resumes = MainClass::getResumeArray();
             padding: 3px 0;
          }
          
+         tr {
+            border: 0px black solid;
+         }
+         
          tr.norm {
             background-color: skyblue;
          }
@@ -100,7 +104,8 @@ $resumes = MainClass::getResumeArray();
          <tbody>
       <?php }
          foreach ($resumes as $key => $resume) {
-            $alt = $key % 2 != 0 ? "alt" : "norm";
+            $alt = "no-style";
+            // $alt = $key % 2 != 0 ? "alt" : "norm";
             $rowString = "<tr class=\"{$alt}\">";
             $rowString .= "<td>{$resume['fname']}</td>";
             $rowString .= "<td>{$resume['lname']}</td>";
