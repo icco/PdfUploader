@@ -15,6 +15,11 @@ class S3Wrapper {
       return $s3->putBucket($name, S3::ACL_PUBLIC_READ);
    }
 
+   public static function deleteFile($path) {
+      $s3 = new S3(AWS_ACCESS_KEY, AWS_SECRET_KEY);
+      return $s3->deleteObject(BASE_BUCKET, $path);
+   }
+
    public static function putFile($file, $path) {
       $s3 = new S3(AWS_ACCESS_KEY, AWS_SECRET_KEY);
       $acl = S3::ACL_PUBLIC_READ;
@@ -74,7 +79,6 @@ Class MainClass {
          $t['lname'] = $a[0];
          $t['major'] = substr($a[2], 0, strrpos($a[2],'.'));
          $t['link'] = S3wrapper::getUrl($folder.$path);
-
          $ret[] = $t;
       }
 
