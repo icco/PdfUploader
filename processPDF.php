@@ -84,7 +84,7 @@ Class MainClass {
    public static function parsePDF($fileArray, $fname, $lname, $major) {
       // Check to make sure root bucket exists
       if (S3wrapper::createBucket(BASE_BUCKET)) {
-         self::log("Created bucket " . BASE_BUCKET);
+         // self::log("Created bucket " . BASE_BUCKET);
       }
 
       if (is_null($fname) 
@@ -161,7 +161,9 @@ Class MainClass {
       if (!$fileArr["tmp_name"]) 
          return "There was an error saving your file, please try again.";
 
-      $fileType = exec("file -b --mime" . $fileArr["tmp_name"]);
+      // $fileType = exec("file -b --mime" . $fileArr["tmp_name"]);
+      $fileType = mime_content_type($fileArr["tmp_name"]);
+      // self::log("Mime: $fileType");
       $meta = array(
          'content-type' => $fileType
       );
