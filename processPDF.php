@@ -85,6 +85,10 @@ Class MainClass {
       return $ret;
    }
 
+   public static function verifyName($string) {
+      return preg_match('/^[a-z]{2,30}$/i', $string);
+   }
+
    public static function parsePDF($fileArray, $fname, $lname, $major) {
       // Check to make sure root bucket exists
       if (S3wrapper::createBucket(BASE_BUCKET)) {
@@ -95,12 +99,16 @@ Class MainClass {
        || is_null($lname)
        || is_null($major) 
        || is_null($fileArray)) {
-         self::log("Missing data in post array.");
+         // self::log("Missing data in post array.");
          return false;
        }
 
       if (($ret = self::verifyPdfUpload($fileArray, $meta)) !== false) {
-         self::log("PDF verification failed. $ret");
+         // self::log("PDF verification failed. $ret");
+         return false;
+      }
+
+      if (!self::verifyName($fname) || !self::verifyName($lname)) {
          return false;
       }
 
@@ -110,7 +118,7 @@ Class MainClass {
 
       // Send File
       $ret = S3Wrapper::putFile($fileArray['tmp_name'], $folder.$fileName);
-      self::log(S3Wrapper::getFileInfo($folder.$fileName));
+      // self::log(S3Wrapper::getFileInfo($folder.$fileName));
 
       if ($ret)
          self::log("SUCCESS: Put of {$fileName} to {$folder}.");
@@ -172,7 +180,7 @@ Class MainClass {
          'content-type' => $fileType
       );
 
-      $temp = explode(";",$fileType);
+      $temp = explode(";", $fileType);
 
       if ($fileArr['size'] > 8 * 1024 * 1024)
          $error = _('Please upload only files smaller than 8 MB!');

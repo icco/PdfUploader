@@ -87,9 +87,10 @@ if (isset($_POST['fname']) &&
          <div id="nay" class="notify">
             <h3>Failure!</h3>
             <p>
-               Either you did not upload a PDF, you are missing a field (First and Last name...)
-               , or there is a problem with our 
-               servers. Please wait a minute and try again. If problems persist, 
+               Either you did not upload a PDF, you are missing a field (First and Last 
+               name...), or there is a problem with our servers. Both of your names need to 
+               be between 2 and 30 characters, with no spaces. If you did all of this, and 
+               still got this error, please wait a minute and try again.  If problems persist, 
                please <a href="mailto:nwelch@calpoly.edu">email us</a>.
             </p>
          </div>
