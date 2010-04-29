@@ -89,6 +89,10 @@ Class MainClass {
       return preg_match('/^[a-z]{2,30}$/i', $string);
    }
 
+   public static function verifyMajor($string) {
+      return preg_match('/^[A-Z]{1,4}$/', $string);
+   }
+
    public static function parsePDF($fileArray, $fname, $lname, $major) {
       // Check to make sure root bucket exists
       if (S3wrapper::createBucket(BASE_BUCKET)) {
@@ -108,8 +112,11 @@ Class MainClass {
          return false;
       }
 
-      if (!self::verifyName($fname) || !self::verifyName($lname)) {
-         return false;
+      if (!self::verifyName($fname) || 
+          !self::verifyName($lname) ||
+          !self::verifyMajor($major)
+         ) {
+            return false;
       }
 
       // Create folder for this year 

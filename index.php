@@ -7,7 +7,8 @@ if (isset($_POST['fname']) &&
     isset($_FILES['file'])) {
    $fname = ucwords($_POST['fname']);
    $lname = ucwords($_POST['lname']);
-   $major = $_POST['major'];
+   $major = $_POST['major'] == 'null' ? $_POST['OtherBox'] : $_POST['major'];
+   $major = strtoupper($major);
    $result = MainClass::parsePDF($_FILES['file'], $fname, $lname, $major);
 }
 
@@ -15,6 +16,7 @@ if (isset($_POST['fname']) &&
 <html>
    <head>
       <title>Cal Poly ACM Resume Book</title>
+      <script src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js"></script>
       <style>
       <!--
          body {
@@ -78,7 +80,7 @@ if (isset($_POST['fname']) &&
                Thank you for uploading your resume <?php print "$fname $lname"; ?>.
             </p>
             <p> 
-            The resume you submited is <a href="<?php echo $result; ?>">available for viewing</a> 
+            The resume you submitted is <a href="<?php echo $result; ?>">available for viewing</a> 
                if you wish. If you do not like what you uploaded, you can overwrite 
                it by putting in your name and uploading a new file.
             </p> 
@@ -87,11 +89,12 @@ if (isset($_POST['fname']) &&
          <div id="nay" class="notify">
             <h3>Failure!</h3>
             <p>
-               Either you did not upload a PDF, you are missing a field (First and Last 
-               name...), or there is a problem with our servers. Both of your names need to 
-               be between 2 and 30 characters, with no spaces. If you did all of this, and 
-               still got this error, please wait a minute and try again.  If problems persist, 
-               please <a href="mailto:nwelch@calpoly.edu">email us</a>.
+               Either you did not upload a PDF, you are missing a field (First and Last name 
+               and your Major) or there is a problem with our servers. Both of your names need 
+               to be between 2 and 30 characters, with no spaces. Your Major, if you selected 
+               Other, must be all caps and not longer than four characters. If you did all of 
+               this, and still got this error, please wait a minute and try again. If 
+               problems persist, please <a href="mailto:nwelch@calpoly.edu">email us</a>.
             </p>
          </div>
    <?php } ?>
@@ -108,12 +111,23 @@ if (isset($_POST['fname']) &&
             <tr>
                <td><label for="major">Major: </label></td>
                <td>
-                  <select name="major" id="major" style="width: 262px;">
+                  <select name="major" id="major" style="width: 262px;"
+                     onchange="javascript: 
+                        if (this.value == 'null') 
+                           $('OtherBox').setStyle('display', 'block'); 
+                        else 
+                           $('OtherBox').setStyle('display', 'none');
+                     ;" >
                      <option selected>CSC</option>
                      <option>CPE</option>
                      <option>SE</option>
                      <option>EE</option>
+                     <option value="null">Other</option>
                   </select>
+               </td>
+               <td>
+                  <input type="text" name="OtherBox" id="OtherBox" 
+                        style="display: none; width: 75px" maxlength="5" />
                </td>
             </tr>
             <tr>
