@@ -48,7 +48,7 @@ class S3Wrapper {
       $s3 = new S3(AWS_ACCESS_KEY, AWS_SECRET_KEY);
       $bucketName = BASE_BUCKET;
       $info = $s3->getObjectInfo($bucketName, $path);
-      return "S3::getObjecInfo(): Info for {$bucketName}/".$path.': '.print_r($info, 1);
+      return "S3::getObjectInfo(): Info for {$bucketName}/".$path.': '.print_r($info, 1);
    }
 
    public static function getUrl($path) {
@@ -72,18 +72,28 @@ Class MainClass {
       $ret = array();
       sort($files);
 
-      // TODO: Only return latest file...
       foreach ($files as $file) {
          $t = array();
+         $a = array();
          $path = basename($file['name']);
-         $a = explode('_', $path);
-         $t['fname'] = $a[1];
-         $t['lname'] = $a[0];
-         $t['major'] = substr($a[2], 0, strrpos($a[2],'.'));
+         $pattern = '/^([A-Za-z]+)_([A-Za-z]+)_([A-Z]+)(\.(\d*))?\.pdf$/';
+         preg_match($pattern, $path, &$a);
+
+         $t['fname'] = $a[2];
+         $t['lname'] = $a[1];
+         $t['major'] = $a[3];
+         $t['hash'] = isset($a[5]) ? (int)$a[5] : 1;
          $t['link'] = S3wrapper::getUrl($folder.$path);
-         $ret[] = $t;
+         $key = "{$t['fname']}_{$t['lname']}_{$t['major']}";
+
+         if (isset($ret[$key])) {
+            $ret[$key] = $ret[$key]['hash'] <= $t['hash'] ? $t : $ret[$key];
+         } else {
+            $ret[$key] = $t;
+         }
       }
 
+      sort($ret);
       return $ret;
    }
 
@@ -125,7 +135,7 @@ Class MainClass {
 
       // Create folder for this year 
       $folder =  MainClass::getSchoolYear() . "/";
-      $fileName = "{$lname}_{$fname}_{$major}_{$hash}.pdf";
+      $fileName = "{$lname}_{$fname}_{$major}.{$hash}.pdf";
 
       // Send File
       $ret = S3Wrapper::putFile($fileArray['tmp_name'], $folder.$fileName);

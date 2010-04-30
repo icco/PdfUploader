@@ -80,7 +80,7 @@ if (isset($_POST['fname']) &&
                Thank you for uploading your resume <?php print "$fname $lname"; ?>.
             </p>
             <p> 
-            The resume you submitted is <a href="<?php echo $result; ?>">available for viewing</a> 
+               The resume you submitted is <a href="<?php echo $result; ?>">available for viewing</a> 
                if you wish. If you do not like what you uploaded, you can overwrite 
                it by putting in your name and uploading a new file.
             </p> 
