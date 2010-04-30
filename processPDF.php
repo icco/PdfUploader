@@ -70,7 +70,9 @@ Class MainClass {
       $folder = MainClass::getSchoolYear()."/";
       $files = S3wrapper::listBucket(BASE_BUCKET, $folder);
       $ret = array();
+      sort($files);
 
+      // TODO: Only return latest file...
       foreach ($files as $file) {
          $t = array();
          $path = basename($file['name']);
@@ -119,9 +121,11 @@ Class MainClass {
             return false;
       }
 
+      $hash = time();
+
       // Create folder for this year 
       $folder =  MainClass::getSchoolYear() . "/";
-      $fileName = "{$lname}_{$fname}_{$major}.pdf";
+      $fileName = "{$lname}_{$fname}_{$major}_{$hash}.pdf";
 
       // Send File
       $ret = S3Wrapper::putFile($fileArray['tmp_name'], $folder.$fileName);
