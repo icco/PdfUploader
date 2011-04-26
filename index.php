@@ -5,8 +5,8 @@ require('processPDF.php');
 if (isset($_POST['fname']) &&
     isset($_POST['lname']) &&
     isset($_FILES['file'])) {
-   $fname = ucwords($_POST['fname']);
-   $lname = ucwords($_POST['lname']);
+   $fname = ucwords(preg_replace("/'/", "", $_POST['fname']));
+   $lname = ucwords(preg_replace("/'/", "", $_POST['lname']));
    $major = $_POST['major'] == 'null' ? $_POST['OtherBox'] : $_POST['major'];
    $major = strtoupper($major);
    $result = MainClass::parsePDF($_FILES['file'], $fname, $lname, $major);
