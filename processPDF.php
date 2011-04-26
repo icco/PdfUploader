@@ -111,9 +111,9 @@ Class MainClass {
          // self::log("Created bucket " . BASE_BUCKET);
       }
 
-      if (is_null($fname) 
+      if (is_null($fname)
        || is_null($lname)
-       || is_null($major) 
+       || is_null($major)
        || is_null($fileArray)) {
          // self::log("Missing data in post array.");
          return false;
@@ -124,7 +124,7 @@ Class MainClass {
          return false;
       }
 
-      if (!self::verifyName($fname) || 
+      if (!self::verifyName($fname) ||
           !self::verifyName($lname) ||
           !self::verifyMajor($major)
          ) {
@@ -133,7 +133,7 @@ Class MainClass {
 
       $hash = time();
 
-      // Create folder for this year 
+      // Create folder for this year
       $folder =  MainClass::getSchoolYear() . "/";
       $fileName = "{$lname}_{$fname}_{$major}.{$hash}.pdf";
 
@@ -176,10 +176,10 @@ Class MainClass {
    }
 
    public static function verifyPdfUpload($fileArr, &$meta) {
-      $error = false; 
+      $error = false;
       $fileError = $fileArr['error'];
 
-      if ($fileArr['name'] == "") 
+      if ($fileArr['name'] == "")
          return "No File Uploaded";
 
       $pdfMime = array(
@@ -191,7 +191,7 @@ Class MainClass {
          "text/x-pdf"
       );
 
-      if (!$fileArr["tmp_name"]) 
+      if (!$fileArr["tmp_name"])
          return "There was an error saving your file, please try again.";
 
       // $fileType = exec("file -b --mime" . $fileArr["tmp_name"]);
@@ -210,7 +210,7 @@ Class MainClass {
       else if ($fileError) {
          // Adopted from php.net
          switch ($fileError) {
-            case UPLOAD_ERR_INI_SIZE: 
+            case UPLOAD_ERR_INI_SIZE:
             case UPLOAD_ERR_FORM_SIZE: {
                $error = _("Please only upload files smaller than 8 MB.");
                break;
@@ -231,7 +231,7 @@ Class MainClass {
                break;
             } default: {
                $error = _('Unknown upload error');
-            } 
+            }
          }
       }
 
